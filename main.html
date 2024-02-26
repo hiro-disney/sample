@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Responsive Design</title>
+<title>ディズニーアトラクション検索</title>
 <link rel="stylesheet" href="./css/style.css">
+<script src="https://unpkg.com/vue@3"></script>
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
   crossorigin="anonymous"></script>
-<script src="./js/main.js"></script>
 </head>
 <body>
-<div class="body_wrapper">
+<div id="search" class="body_wrapper">
     <header style="position: relative;">
         <div class="bottons">
             <div class="botton"></div>
@@ -23,117 +23,166 @@
             <div class="ear"></div>
         </div>
     </header>
-    <div style="width: 100%; display: flex; justify-content: center;">
-    <main>
-        <!--
-        <div class="hamburger-menu">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-        </div>
-        -->
-
-        <h1 class="text-xl mt-5 mb-10 font-bold">Disney アトラクション検索</h1>
-
-        <p class="text-sm mt-4 mr-2 ml-2">子供の年齢と身長を入力して<br>楽しめるアトラクションを検索！</p>
-
-        <div class="grid grid-cols-1 divide-y"></div>
-
-        <span class="block mt-8 mb-4 text-sm text-gray-800 font-bold">パーク選択</span>
-        <div class="grid grid-cols-2 gap-2">
-            <div class="flex items-center justify-center">
-                <input checked id="park-radio-1" type="radio" value="1" name="park-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                <label for="park-radio-1" class="ms-2 text-base font-medium text-gray-800">ランド</label>
+    <div class="main_wrapper mb-4">
+        <main>
+            <!--
+            <div class="hamburger-menu">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
             </div>
-            <div class="flex items-center justify-center">
-                <input id="park-radio-2" type="radio" value="2" name="park-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                <label for="park-radio-2" class="ms-2 text-base font-medium text-gray-800">シー</label>
+            -->
+
+            <h1 class="text-xl mt-5 mb-10 font-bold">Disney アトラクション検索</h1>
+
+            <p class="text-sm mt-4 mr-2 ml-2">子供の年齢と身長を入力して<br>楽しめるアトラクションを検索！</p>
+
+            <div class="grid grid-cols-1 divide-y"></div>
+
+            <span class="block mt-8 mb-4 text-sm text-gray-800 font-bold">パーク選択</span>
+            <div class="grid grid-cols-2 gap-2">
+                <div class="flex items-center justify-center">
+                    <input id="park-radio-1" type="radio" v-model="selectedPark" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                    <label for="park-radio-1" class="ms-2 text-base font-medium text-gray-800">ランド</label>
+                </div>
+                <div class="flex items-center justify-center">
+                    <input id="park-radio-2" type="radio" v-model="selectedPark" value="2" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                    <label for="park-radio-2" class="ms-2 text-base font-medium text-gray-800">シー</label>
+                </div>
             </div>
-        </div>
-        <label for="age" class="block mt-6 mb-2 text-sm text-gray-800 font-bold">年齢</label>
-        <select id="age" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3">
-            <option selected>年齢を選択</option>
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7歳以上</option>
-        </select>
+            <label for="age" class="block mt-6 mb-2 text-sm text-gray-800 font-bold">年齢</label>
+            <select id="age" v-model="selectedAge" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 text-center">
+                <option disabled value="">年齢を選択</option>
+                <option value="0">0歳</option>
+                <option value="1">1歳</option>
+                <option value="2">2歳</option>
+                <option value="3">3歳</option>
+                <option value="4">4歳</option>
+                <option value="5">5歳</option>
+                <option value="6">6歳</option>
+                <option value="7">7歳以上</option>
+            </select>
 
-        <label for="height" class="block mt-8 mb-2 text-sm text-gray-800 font-bold">身長</label>
-        <select id="height" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3">
-            <option selected>身長を選択</option>
-            <option value="80">80cm以下</option>
-            <option value="81">81cm</option>
-            <option value="82">82cm</option>
-            <option value="83">83cm</option>
-            <option value="84">84cm</option>
-            <option value="85">85cm</option>
-            <option value="86">86cm</option>
-            <option value="87">87cm</option>
-            <option value="88">88cm</option>
-            <option value="89">89cm</option>
-            <option value="90">90cm</option>
-            <option value="91">91cm</option>
-            <option value="92">92cm</option>
-            <option value="93">93cm</option>
-            <option value="94">94cm</option>
-            <option value="95">95cm</option>
-            <option value="96">96cm</option>
-            <option value="97">97cm</option>
-            <option value="98">98cm</option>
-            <option value="99">99cm</option>
-            <option value="100">100cm</option>
-            <option value="101">101cm</option>
-            <option value="102">102cm</option>
-            <option value="103">103cm</option>
-            <option value="104">104cm</option>
-            <option value="105">105cm</option>
-            <option value="106">106cm</option>
-            <option value="107">107cm</option>
-            <option value="108">108cm</option>
-            <option value="109">109cm</option>
-            <option value="110">110cm</option>
-            <option value="111">111cm</option>
-            <option value="112">112cm</option>
-            <option value="113">113cm</option>
-            <option value="114">114cm</option>
-            <option value="115">115cm</option>
-            <option value="116">116cm</option>
-            <option value="117">117cm以上</option>
-        </select>
+            <label for="height" class="block mt-8 mb-2 text-sm text-gray-800 font-bold">身長</label>
+            <select id="height" v-model="selectedHeight" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 text-center">
+                <option disabled value="">身長を選択</option>
+                <option value="80">80cm以下</option>
+                <option value="81">81cm</option>
+                <option value="82">82cm</option>
+                <option value="83">83cm</option>
+                <option value="84">84cm</option>
+                <option value="85">85cm</option>
+                <option value="86">86cm</option>
+                <option value="87">87cm</option>
+                <option value="88">88cm</option>
+                <option value="89">89cm</option>
+                <option value="90">90cm</option>
+                <option value="91">91cm</option>
+                <option value="92">92cm</option>
+                <option value="93">93cm</option>
+                <option value="94">94cm</option>
+                <option value="95">95cm</option>
+                <option value="96">96cm</option>
+                <option value="97">97cm</option>
+                <option value="98">98cm</option>
+                <option value="99">99cm</option>
+                <option value="100">100cm</option>
+                <option value="101">101cm</option>
+                <option value="102">102cm</option>
+                <option value="103">103cm</option>
+                <option value="104">104cm</option>
+                <option value="105">105cm</option>
+                <option value="106">106cm</option>
+                <option value="107">107cm</option>
+                <option value="108">108cm</option>
+                <option value="109">109cm</option>
+                <option value="110">110cm</option>
+                <option value="111">111cm</option>
+                <option value="112">112cm</option>
+                <option value="113">113cm</option>
+                <option value="114">114cm</option>
+                <option value="115">115cm</option>
+                <option value="116">116cm</option>
+                <option value="117">117cm以上</option>
+            </select>
 
-        <!-- Using utilities: -->
-        <button class="mt-8 bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm">
-            検索
-        </button>
+            <!-- Using utilities: -->
+            <button @click="filterAttractions" class="mt-8 bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm">
+                検索
+            </button>
 
-        <h2 class="text-center text-base font-bold mt-5 mb-5">検索結果</h2>
+            <div id="result" v-if="filteredAttractions.length">
+                <hr class="h-px my-8 bg-gray-200 border-0">
 
-        <ul class="list-none">
-            <li class="text-sm mb-2 flex justify-between items-center text-left">
-                リストアイテム1
-                <div>
-                    <span class="label bg-red-500 text-xs">81cm以上</span>
-                    <span class="label bg-green-500 text-xs">1人お座り</span>
+                <h2 class="text-center text-base font-bold mt-8 mb-5">検索結果</h2>
+
+                <div class="text-xs border-t border-r border-b border-l border-gray-400 bg-gray-50 rounded-t-md rounded-b-md p-4 text-left mb-6">
+                    <h3 class="text-center mb-3 font-bold">ラベル説明</h3>
+                    <div class="mb-2">
+                        <span class="label bg-red-500 text-xs">xxcm以上</span> 👈 身長制限
+                    </div>
+                    <div class="mb-2">
+                        <span class="label bg-green-500 text-xs">1人座り</span> 👈 1人でお座りできること
+                    </div>
+                    <div class="mb-2">
+                        <span class="label bg-green-500 text-xs">抱っこOK</span> 👈 抱っこで利用可能（詳細<a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=14998&category=29&page=1" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">こちら</a>）
+                    </div>
+                    <div class="mb-2">
+                        <span class="label bg-green-500 text-xs">ベビーカーOK</span> 👈 ベビーカーで利用可能（詳細<a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=14998&category=29&page=1" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">こちら</a>）
+                    </div>
+                    <div>
+                        <span class="label bg-blue-500 text-xs">○○○</span> 👈 アトラクションタイプ
+                    </div>
                 </div>
-            </li>
-            <li class="text-sm mb-2 flex justify-between items-center text-left">
-                インディ・ジョーンズ
-                <div>
-                    <span class="label bg-blue-500 text-xs">ライド</span>
+
+                <div v-if="showAlertAgeMessage" class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-6" role="alert">
+                    <p class="text-sm font-bold mb-2">7歳未満のお子様について</p>
+                    <p class="text-sm text-left">
+                        アトラクションについて、年齢制限はありません<br>
+                        ただし、7才未満のお子様には16才以上の方の同伴が必要です<br>
+                        詳しくは <a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=10088&category=30&page=1" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">こちら </a>
+                    </p>
                 </div>
-            </li>
-            <!-- 他のリストアイテムも同様に追加 -->
-        </ul>
-        
-          
-          
+
+                <ul class="list-none">
+                    <li class="text-sm mb-2 flex justify-between items-center text-left">
+                        <a href="https://www.tokyodisneyresort.jp/tdl/attraction/detail/154/" target="_blank" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">ウエスタンリバー鉄道</a>
+                        <div>
+                            <span class="label bg-red-500 text-xs text-nowrap">81cm以上</span>
+                            <span class="label bg-green-500 text-xs text-nowrap">1人座り</span>
+                        </div>
+                    </li>
+                    <li class="text-sm mb-2 flex justify-between items-center text-left">
+                        <a href="https://www.tokyodisneyresort.jp/tdl/attraction/detail/157/" target="_blank" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">ウエスタンランド・シューティングギャラリー</a>
+                        <div>
+                            <span class="label bg-blue-500 text-xs text-nowrap">体験型</span>
+                        </div>
+                    </li>
+                </ul>
+
+                <ul v-if="filteredAttractions.length" class="list-none">
+                    <li v-for="attraction in filteredAttractions" :key="attraction.name" class="text-sm mb-2 flex justify-between items-center text-left">
+                        <a href="https://www.tokyodisneyresort.jp/tdl/attraction/detail/154/" target="_blank" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ attraction.name }}</a>
+                        <div>
+                            <span class="label bg-red-500 text-xs text-nowrap">81cm以上</span>
+                            <span class="label bg-green-500 text-xs text-nowrap" v-if="attraction.can_alone">1人座り</span>
+                            <span class="label bg-blue-500 text-xs text-nowrap">{{ attraction.attraction_type }}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div v-if="showAlertNothingMessage">
+                <hr class="h-px my-8 bg-gray-500 border-0">
+                <h2 class="text-center text-base font-bold mt-8 mb-5">検索結果</h2>
+
+                <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-6" role="alert">
+                    <p class="text-sm font-bold mb-2">乗れるアトラクションがありません</p>
+                    詳しくは <a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=14147" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">こちら </a>
+                </div>
+            </div>
     </main>
     </div>
 </div>
+<script src="./js/main.js"></script>
 </body>
 </html>
