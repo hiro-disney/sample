@@ -10,6 +10,9 @@
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
   crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+
 </head>
 <body>
 <div id="search" class="body_wrapper">
@@ -24,6 +27,8 @@
         </div>
     </header>
     <div class="main_wrapper mb-4">
+        <div id="particles-js1"></div>
+        <div id="particles-js2"></div>
         <main>
             <!--
             <div class="hamburger-menu">
@@ -33,24 +38,22 @@
             </div>
             -->
 
-            <h1 class="text-xl mt-5 mb-10 font-bold">Disney アトラクション検索</h1>
+            <h1 class="text-xl mt-5 mb-10 font-bold text-gray-700">Disney アトラクション検索</h1>
 
-            <p class="text-sm mt-4 mr-2 ml-2">子供の年齢と身長を入力して<br>楽しめるアトラクションを検索！</p>
+            <p class="text-sm mt-4 mr-2 ml-2 text-gray-700">子供の年齢と身長を入力して<br>楽しめるアトラクションを検索！</p>
 
-            <div class="grid grid-cols-1 divide-y"></div>
-
-            <span class="block mt-8 mb-4 text-sm text-gray-800 font-bold">パーク選択</span>
+            <span class="block mt-8 mb-4 text-sm text-gray-700 font-bold">パーク選択</span>
             <div class="grid grid-cols-2 gap-2">
                 <div class="flex items-center justify-center">
                     <input id="park-radio-1" type="radio" v-model="selectedPark" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                    <label for="park-radio-1" class="ms-2 text-base font-medium text-gray-800">ランド</label>
+                    <label for="park-radio-1" class="ms-2 text-base font-medium text-gray-700">ランド</label>
                 </div>
                 <div class="flex items-center justify-center">
                     <input id="park-radio-2" type="radio" v-model="selectedPark" value="2" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                    <label for="park-radio-2" class="ms-2 text-base font-medium text-gray-800">シー</label>
+                    <label for="park-radio-2" class="ms-2 text-base font-medium text-gray-700">シー</label>
                 </div>
             </div>
-            <label for="age" class="block mt-6 mb-2 text-sm text-gray-800 font-bold">年齢</label>
+            <label for="age" class="block mt-6 mb-2 text-sm text-gray-700 font-bold">年齢</label>
             <select id="age" v-model="selectedAge" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 text-center">
                 <option disabled value="">年齢を選択</option>
                 <option value="0">0歳</option>
@@ -63,7 +66,7 @@
                 <option value="7">7歳以上</option>
             </select>
 
-            <label for="height" class="block mt-8 mb-2 text-sm text-gray-800 font-bold">身長</label>
+            <label for="height" class="block mt-8 mb-2 text-sm text-gray-700 font-bold">身長</label>
             <select id="height" v-model="selectedHeight" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 text-center">
                 <option disabled value="">身長を選択</option>
                 <option value="80">80cm以下</option>
@@ -112,11 +115,18 @@
             </button>
 
             <div id="result" v-if="filteredAttractions.length">
-                <hr class="h-px my-8 bg-gray-200 border-0">
+                <hr class="my-8 border-t-0 border-l-0 border-r-0 border-b-2 bg-gray-700 border-dashed">
 
-                <h2 class="text-center text-base font-bold mt-8 mb-5">検索結果</h2>
+                <div v-if="showAlertAgeMessage" class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-6" role="alert">
+                    <p class="text-sm font-bold mb-2">7歳未満のお子様について</p>
+                    <p class="text-sm text-left">
+                        アトラクションについて、年齢制限はありません<br>
+                        ただし、7才未満のお子様には16才以上の方の同伴が必要です<br>
+                        詳しくは <a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=10088&category=30&page=1" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">こちら </a>
+                    </p>
+                </div>
 
-                <div class="text-xs border-t border-r border-b border-l border-gray-400 bg-gray-50 rounded-t-md rounded-b-md p-4 text-left mb-6">
+                <div class="text-xs border-t border-r border-b border-l border-gray-400 bg-gray-50 text-gray-700 rounded-t-md rounded-b-md p-4 text-left mb-6">
                     <h3 class="text-center mb-3 font-bold">ラベル説明</h3>
                     <div class="mb-2">
                         <span class="label bg-red-500 text-xs">xxcm以上</span> 👈 身長制限
@@ -135,39 +145,16 @@
                     </div>
                 </div>
 
-                <div v-if="showAlertAgeMessage" class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-6" role="alert">
-                    <p class="text-sm font-bold mb-2">7歳未満のお子様について</p>
-                    <p class="text-sm text-left">
-                        アトラクションについて、年齢制限はありません<br>
-                        ただし、7才未満のお子様には16才以上の方の同伴が必要です<br>
-                        詳しくは <a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=10088&category=30&page=1" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">こちら </a>
-                    </p>
-                </div>
-
-                <ul class="list-none">
-                    <li class="text-sm mb-2 flex justify-between items-center text-left">
-                        <a href="https://www.tokyodisneyresort.jp/tdl/attraction/detail/154/" target="_blank" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">ウエスタンリバー鉄道</a>
-                        <div>
-                            <span class="label bg-red-500 text-xs text-nowrap">81cm以上</span>
-                            <span class="label bg-green-500 text-xs text-nowrap">1人座り</span>
-                        </div>
-                    </li>
-                    <li class="text-sm mb-2 flex justify-between items-center text-left">
-                        <a href="https://www.tokyodisneyresort.jp/tdl/attraction/detail/157/" target="_blank" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">ウエスタンランド・シューティングギャラリー</a>
-                        <div>
-                            <span class="label bg-blue-500 text-xs text-nowrap">体験型</span>
-                        </div>
-                    </li>
-                </ul>
+                <h2 class="text-center text-base font-bold mt-8 mb-5 text-gray-700">検索結果</h2>
 
                 <ul v-if="filteredAttractions.length" class="list-none">
-                    <li v-for="attraction in filteredAttractions" :key="attraction.name" class="text-sm mb-2 flex justify-between items-center text-left">
-                        <a href="https://www.tokyodisneyresort.jp/tdl/attraction/detail/154/" target="_blank" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ attraction.name }}</a>
-                        <div>
+                    <li v-for="attraction in filteredAttractions" :key="attraction.name" class="text-sm mb-3 text-left">
+                        <div class="mb-1">
                             <span class="label bg-red-500 text-xs text-nowrap">81cm以上</span>
-                            <span class="label bg-green-500 text-xs text-nowrap" v-if="attraction.can_alone">1人座り</span>
-                            <span class="label bg-blue-500 text-xs text-nowrap">{{ attraction.attraction_type }}</span>
+                            <span class="label bg-green-500 text-xs text-nowrap ml-2" v-if="attraction.can_alone">1人座り</span>
+                            <span class="label bg-blue-500 text-xs text-nowrap ml-2">{{ attraction.attraction_type }}</span>
                         </div>
+                        <a href="https://www.tokyodisneyresort.jp/tdl/attraction/detail/154/" target="_blank" class="font-medium text-blue-600 hover:underline">{{ attraction.name }}</a>
                     </li>
                 </ul>
             </div>
@@ -177,7 +164,7 @@
 
                 <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-6" role="alert">
                     <p class="text-sm font-bold mb-2">乗れるアトラクションがありません</p>
-                    詳しくは <a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=14147" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">こちら </a>
+                    詳しくは <a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=14147" class="font-medium text-blue-600 hover:underline" target="_blank">こちら </a>
                 </div>
             </div>
     </main>
