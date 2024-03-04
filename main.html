@@ -109,62 +109,101 @@
                 <option value="117">117cm以上</option>
             </select>
 
+            <span class="block mt-8 mb-4 text-sm text-gray-700 font-bold">絞り込み</span>
+            <div class="flex justify-center gap-6">
+                <label class="flex items-center gap-x-2 cursor-pointer">
+                    <input type="checkbox" v-model="canHold" class="peer sr-only">
+                    <span class="
+                        block w-[20px] h-[20px] 
+                        peer-checked:bg-gray-700 border border-gray-700 rounded peer-focus:outline 
+                        peer-focus:outline-blue-500 peer-checked:before:content-[''] peer-checked:before:absolute 
+                        peer-checked:before:block peer-checked:before:w-[5px] peer-checked:before:border-b 
+                        peer-checked:before:border-b-white peer-checked:before:origin-[0_100%] peer-checked:before:rotate-45 
+                        peer-checked:before:translate-x-[2px] peer-checked:before:translate-y-[9px] peer-checked:after:content-[''] 
+                        peer-checked:after:absolute peer-checked:after:block peer-checked:after:w-[12px] peer-checked:after:border-b 
+                        peer-checked:after:border-b-white peer-checked:after:-rotate-45 peer-checked:after:translate-x-[4px] 
+                        peer-checked:after:translate-y-[9px]
+                        bg-white"></span>
+                    <span class="text-sm">抱っこOK</span>
+                </label>
+
+                <label class="flex items-center gap-x-2 cursor-pointer">
+                    <input type="checkbox" v-model="canStroller" class="peer sr-only">
+                    <span class="
+                        block w-[20px] h-[20px] 
+                        peer-checked:bg-gray-700 border border-gray-700 rounded peer-focus:outline 
+                        peer-focus:outline-blue-500 peer-checked:before:content-[''] peer-checked:before:absolute 
+                        peer-checked:before:block peer-checked:before:w-[5px] peer-checked:before:border-b 
+                        peer-checked:before:border-b-white peer-checked:before:origin-[0_100%] peer-checked:before:rotate-45 
+                        peer-checked:before:translate-x-[2px] peer-checked:before:translate-y-[9px] peer-checked:after:content-[''] 
+                        peer-checked:after:absolute peer-checked:after:block peer-checked:after:w-[12px] peer-checked:after:border-b 
+                        peer-checked:after:border-b-white peer-checked:after:-rotate-45 peer-checked:after:translate-x-[4px] 
+                        peer-checked:after:translate-y-[9px]
+                        bg-white"></span>
+                    <span class="text-sm">ベビーカーOK</span>
+                </label>
+            </div>
+
             <!-- Using utilities: -->
             <button @click="filterAttractions" class="mt-8 bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm">
                 検索
             </button>
 
-            <div id="result" v-if="filteredAttractions.length">
-                <hr class="my-8 border-t-0 border-l-0 border-r-0 border-b-2 bg-gray-700 border-dashed">
+            <div id="result">
+                <div v-if="filteredAttractions.length">
+                    <hr class="my-8 border-t-0 border-l-0 border-r-0 border-b-2 bg-gray-700 border-dashed">
 
-                <div v-if="showAlertAgeMessage" class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-6" role="alert">
-                    <p class="text-sm font-bold mb-2">7歳未満のお子様について</p>
-                    <p class="text-sm text-left">
-                        アトラクションについて、年齢制限はありません<br>
-                        ただし、7才未満のお子様には16才以上の方の同伴が必要です<br>
-                        詳しくは <a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=10088&category=30&page=1" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">こちら </a>
-                    </p>
-                </div>
+                    <div v-if="showAlertAgeMessage" class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-6" role="alert">
+                        <p class="text-sm font-bold mb-2">7歳未満のお子様について</p>
+                        <p class="text-sm text-left">
+                            アトラクションについて、年齢制限はありません<br>
+                            ただし、7才未満のお子様には16才以上の方の同伴が必要です<br>
+                            詳しくは <a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=10088&category=30&page=1" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">こちら </a>
+                        </p>
+                    </div>
 
-                <div class="text-xs border-t border-r border-b border-l border-gray-400 bg-gray-50 text-gray-700 rounded-t-md rounded-b-md p-4 text-left mb-6">
-                    <h3 class="text-center mb-3 font-bold">ラベル説明</h3>
-                    <div class="mb-2">
-                        <span class="label bg-red-500 text-xs">xxcm以上</span> 👈 身長制限
-                    </div>
-                    <div class="mb-2">
-                        <span class="label bg-green-500 text-xs">1人座り</span> 👈 1人でお座りできること
-                    </div>
-                    <div class="mb-2">
-                        <span class="label bg-green-500 text-xs">抱っこOK</span> 👈 抱っこで利用可能（詳細<a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=14998&category=29&page=1" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">こちら</a>）
-                    </div>
-                    <div class="mb-2">
-                        <span class="label bg-green-500 text-xs">ベビーカーOK</span> 👈 ベビーカーで利用可能（詳細<a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=14998&category=29&page=1" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">こちら</a>）
-                    </div>
-                    <div>
-                        <span class="label bg-blue-500 text-xs">○○○</span> 👈 アトラクションタイプ
-                    </div>
-                </div>
-
-                <h2 class="text-center text-base font-bold mt-8 mb-5 text-gray-700">検索結果</h2>
-
-                <ul v-if="filteredAttractions.length" class="list-none">
-                    <li v-for="attraction in filteredAttractions" :key="attraction.name" class="text-sm mb-3 text-left">
-                        <div class="mb-1">
-                            <span class="label bg-red-500 text-xs text-nowrap">81cm以上</span>
-                            <span class="label bg-green-500 text-xs text-nowrap ml-2" v-if="attraction.can_alone">1人座り</span>
-                            <span class="label bg-blue-500 text-xs text-nowrap ml-2">{{ attraction.attraction_type }}</span>
+                    <div class="text-xs border-t border-r border-b border-l border-gray-400 bg-gray-50 text-gray-700 rounded-t-md rounded-b-md p-4 text-left mb-6">
+                        <h3 class="text-center mb-3 font-bold">ラベル説明</h3>
+                        <div class="mb-2">
+                            <span class="label bg-red-500 text-xs">xxcm以上</span> 👈 身長制限
                         </div>
-                        <a href="https://www.tokyodisneyresort.jp/tdl/attraction/detail/154/" target="_blank" class="font-medium text-blue-600 hover:underline">{{ attraction.name }}</a>
-                    </li>
-                </ul>
-            </div>
-            <div v-if="showAlertNothingMessage">
-                <hr class="h-px my-8 bg-gray-500 border-0">
-                <h2 class="text-center text-base font-bold mt-8 mb-5">検索結果</h2>
+                        <div class="mb-2">
+                            <span class="label bg-green-500 text-xs">1人座り</span> 👈 1人でお座りできること
+                        </div>
+                        <div class="mb-2">
+                            <span class="label bg-fuchsia-500 text-xs">抱っこOK</span> 👈 抱っこで利用可能（詳細<a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=14998&category=29&page=1" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">こちら</a>）
+                        </div>
+                        <div class="mb-2">
+                            <span class="label bg-yellow-500 text-xs">ベビーカーOK</span> 👈 ベビーカーで利用可能（詳細<a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=14998&category=29&page=1" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">こちら</a>）
+                        </div>
+                        <div>
+                            <span class="label bg-blue-500 text-xs">○○○</span> 👈 アトラクションタイプ
+                        </div>
+                    </div>
 
-                <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-6" role="alert">
-                    <p class="text-sm font-bold mb-2">乗れるアトラクションがありません</p>
-                    詳しくは <a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=14147" class="font-medium text-blue-600 hover:underline" target="_blank">こちら </a>
+                    <h2 class="text-center text-base font-bold mt-8 mb-5 text-gray-700">検索結果</h2>
+
+                    <ul v-if="filteredAttractions.length" class="list-none">
+                        <li v-for="attraction in filteredAttractions" :key="attraction.name" class="text-sm mb-3 text-left">
+                            <div class="mb-1">
+                                <span class="label bg-blue-500 text-xs text-nowrap mr-2">{{ attraction.attraction_type }}</span>
+                                <span v-if="attraction.height > 0" class="label bg-red-500 text-xs text-nowrap mr-2">{{ attraction.height }}cm以上</span>
+                                <span v-if="attraction.can_alone" class="label bg-green-500 text-xs text-nowrap mr-2">1人座り</span>
+                                <span v-if="attraction.can_hold" class="label bg-fuchsia-500 text-xs text-nowrap mr-2">抱っこOK</span>
+                                <span v-if="attraction.can_stroller" class="label bg-yellow-500 text-xs text-nowrap">ベビーカーOK</span>
+                            </div>
+                            <a v-bind:href="attraction.url" target="_blank" class="font-medium text-blue-600 hover:underline">{{ attraction.name }}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div v-if="showAlertNothingMessage">
+                    <hr class="h-px my-8 bg-gray-500 border-0">
+                    <h2 class="text-center text-base font-bold mt-8 mb-5">検索結果</h2>
+
+                    <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-6" role="alert">
+                        <p class="text-sm font-bold mb-2">乗れるアトラクションがありません</p>
+                        詳しくは <a href="https://faq.tokyodisneyresort.jp/tdr/faq_detail.html?id=14147" class="font-medium text-blue-600 hover:underline" target="_blank">こちら </a>
+                    </div>
                 </div>
             </div>
     </main>
