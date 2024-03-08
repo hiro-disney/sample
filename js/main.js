@@ -78,7 +78,7 @@ Vue.createApp({
             selectedPark: null,
             canHold: false,
             canStroller: false,
-            selectedAttractionType: 'all',
+            selectedAttractionType: '',
             filteredAttractions: [],
             showAlertAgeMessage: false,
             showAlertNothingMessage: false,
