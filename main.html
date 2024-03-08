@@ -110,38 +110,70 @@
             </select>
 
             <span class="block mt-8 mb-4 text-sm text-gray-700 font-bold">絞り込み</span>
-            <div class="flex justify-center gap-6">
-                <label class="flex items-center gap-x-2 cursor-pointer">
-                    <input type="checkbox" v-model="canHold" class="peer sr-only">
-                    <span class="
-                        block w-[20px] h-[20px] 
-                        peer-checked:bg-gray-700 border border-gray-700 rounded peer-focus:outline 
-                        peer-focus:outline-blue-500 peer-checked:before:content-[''] peer-checked:before:absolute 
-                        peer-checked:before:block peer-checked:before:w-[5px] peer-checked:before:border-b 
-                        peer-checked:before:border-b-white peer-checked:before:origin-[0_100%] peer-checked:before:rotate-45 
-                        peer-checked:before:translate-x-[2px] peer-checked:before:translate-y-[9px] peer-checked:after:content-[''] 
-                        peer-checked:after:absolute peer-checked:after:block peer-checked:after:w-[12px] peer-checked:after:border-b 
-                        peer-checked:after:border-b-white peer-checked:after:-rotate-45 peer-checked:after:translate-x-[4px] 
-                        peer-checked:after:translate-y-[9px]
-                        bg-white"></span>
-                    <span class="text-sm">抱っこOK</span>
-                </label>
+            <div class="text-xs border-t border-r border-b border-l border-gray-400 text-gray-700 rounded-t-md rounded-b-md p-4 text-left">
+                <div class="grid grid-cols-2 ">
+                    <label class="flex items-center gap-x-2 cursor-pointer ml-10">
+                        <input type="checkbox" v-model="canHold" class="peer sr-only">
+                        <span class="
+                            block w-[20px] h-[20px] 
+                            peer-checked:bg-gray-700 border border-gray-700 rounded peer-focus:outline 
+                            peer-focus:outline-blue-500 peer-checked:before:content-[''] peer-checked:before:absolute 
+                            peer-checked:before:block peer-checked:before:w-[5px] peer-checked:before:border-b 
+                            peer-checked:before:border-b-white peer-checked:before:origin-[0_100%] peer-checked:before:rotate-45 
+                            peer-checked:before:translate-x-[2px] peer-checked:before:translate-y-[9px] peer-checked:after:content-[''] 
+                            peer-checked:after:absolute peer-checked:after:block peer-checked:after:w-[12px] peer-checked:after:border-b 
+                            peer-checked:after:border-b-white peer-checked:after:-rotate-45 peer-checked:after:translate-x-[4px] 
+                            peer-checked:after:translate-y-[9px]
+                            bg-white"></span>
+                        <span class="text-sm">抱っこOK</span>
+                    </label>
 
-                <label class="flex items-center gap-x-2 cursor-pointer">
-                    <input type="checkbox" v-model="canStroller" class="peer sr-only">
-                    <span class="
-                        block w-[20px] h-[20px] 
-                        peer-checked:bg-gray-700 border border-gray-700 rounded peer-focus:outline 
-                        peer-focus:outline-blue-500 peer-checked:before:content-[''] peer-checked:before:absolute 
-                        peer-checked:before:block peer-checked:before:w-[5px] peer-checked:before:border-b 
-                        peer-checked:before:border-b-white peer-checked:before:origin-[0_100%] peer-checked:before:rotate-45 
-                        peer-checked:before:translate-x-[2px] peer-checked:before:translate-y-[9px] peer-checked:after:content-[''] 
-                        peer-checked:after:absolute peer-checked:after:block peer-checked:after:w-[12px] peer-checked:after:border-b 
-                        peer-checked:after:border-b-white peer-checked:after:-rotate-45 peer-checked:after:translate-x-[4px] 
-                        peer-checked:after:translate-y-[9px]
-                        bg-white"></span>
-                    <span class="text-sm">ベビーカーOK</span>
-                </label>
+                    <label class="flex items-center gap-x-2 cursor-pointer">
+                        <input type="checkbox" v-model="canStroller" class="peer sr-only">
+                        <span class="
+                            block w-[20px] h-[20px] 
+                            peer-checked:bg-gray-700 border border-gray-700 rounded peer-focus:outline 
+                            peer-focus:outline-blue-500 peer-checked:before:content-[''] peer-checked:before:absolute 
+                            peer-checked:before:block peer-checked:before:w-[5px] peer-checked:before:border-b 
+                            peer-checked:before:border-b-white peer-checked:before:origin-[0_100%] peer-checked:before:rotate-45 
+                            peer-checked:before:translate-x-[2px] peer-checked:before:translate-y-[9px] peer-checked:after:content-[''] 
+                            peer-checked:after:absolute peer-checked:after:block peer-checked:after:w-[12px] peer-checked:after:border-b 
+                            peer-checked:after:border-b-white peer-checked:after:-rotate-45 peer-checked:after:translate-x-[4px] 
+                            peer-checked:after:translate-y-[9px]
+                            bg-white"></span>
+                        <span class="text-sm">ベビーカーOK</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="border-t border-r border-b border-l border-gray-400 text-gray-700 rounded-t-md rounded-b-md p-4 mt-2">
+                <div class="grid grid-cols-2">
+                    <div class="flex items-center ml-10">
+                        <input id="type-radio-ride" type="radio" v-model="selectedAttractionType" value="ライド" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                        <label for="type-radio-ride" class="ms-2 text-sm font-medium text-gray-700">ライド</label>
+                    </div>
+
+                    <div class="flex items-center">
+                        <input id="type-radio-experience" type="radio" v-model="selectedAttractionType" value="体験型" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                        <label for="type-radio-experience" class="ms-2 text-sm font-medium text-gray-700">体験型</label>
+                    </div>
+
+                    <div class="flex items-center ml-10 mt-2">
+                        <input id="type-radio-theater" type="radio" v-model="selectedAttractionType" value="シアター" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                        <label for="type-radio-theater" class="ms-2 text-sm font-medium text-gray-700">シアター</label>
+                    </div>
+
+                    <div class="flex items-center">
+                        <input id="type-radio-game" type="radio" v-model="selectedAttractionType" value="ゲーム" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                        <label for="type-radio-game" class="ms-2 text-sm font-medium text-gray-700">ゲーム</label>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1">
+                    <div class="flex items-center ml-10 mt-2">
+                        <input checked id="type-radio-all" type="radio" v-model="selectedAttractionType" value="all" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                        <label for="type-radio-all" class="ms-2 text-sm font-medium text-gray-700">全アトラクションタイプ</label>
+                    </div>
+                </div>
             </div>
 
             <!-- Using utilities: -->

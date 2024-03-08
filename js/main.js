@@ -78,6 +78,7 @@ Vue.createApp({
             selectedPark: null,
             canHold: false,
             canStroller: false,
+            selectedAttractionType: 'all',
             filteredAttractions: [],
             showAlertAgeMessage: false,
             showAlertNothingMessage: false,
@@ -90,16 +91,23 @@ Vue.createApp({
                 return;
             }
             this.filteredAttractions = this.attractions.filter(attraction => {
-                if (this.canHold && this.canStroller) {
-                    return attraction.height <= this.selectedHeight && attraction.park == this.selectedPark && attraction.can_hold == true && attraction.can_stroller == true;
-                } else if (this.canHold) {
-                    return attraction.height <= this.selectedHeight && attraction.park == this.selectedPark && attraction.can_hold == true;
-                } else if (this.canStroller) {
-                    return attraction.height <= this.selectedHeight && attraction.park == this.selectedPark && attraction.can_stroller == true;
-                } else {
-                    return attraction.height <= this.selectedHeight && attraction.park == this.selectedPark;
-                }
+                return attraction.height <= this.selectedHeight && attraction.park == this.selectedPark;
             });
+            if (this.canHold) {
+                this.filteredAttractions = this.filteredAttractions.filter(attraction => {
+                    return attraction.can_hold;
+                });
+            }
+            if (this.canStroller) {
+                this.filteredAttractions = this.filteredAttractions.filter(attraction => {
+                    return attraction.can_stroller;
+                });
+            }
+            if (this.selectedAttractionType !== 'all') {
+                this.filteredAttractions = this.filteredAttractions.filter(attraction => {
+                    return attraction.attraction_type === this.selectedAttractionType;
+                });
+            }
             this.showAlertAgeMessage = this.selectedAge < 7;
             this.showAlertNothingMessage = (this.filteredAttractions.length === 0);
 
