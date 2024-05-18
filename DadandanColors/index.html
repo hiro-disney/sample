@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>だだんだん！いろいろいろへんげ！〜子ども向けおもちゃアプリ〜</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="bg-blue-600 text-white py-4">
+        <div class="container mx-auto text-center">
+        <h1 class="text-2xl font-bold">だだんだん！ いろいろいろへんげ</h1>
+        <p class="mt-1 p-2">※ ボタンを押すと音声が流れるので、嫌な人はミュートにしてね</p>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="flex-grow flex justify-center">
+        <div class="md:w-7/8">
+            <div class="flex flex-col md:flex-row justify-center items-center mb-4">
+                <!-- Labels -->
+                <div class="flex flex-row md:flex-col md:mr-4">
+                    <div id="labelJP" class="m-2 bg-gray-300 p-2 text-xl">ふつう</div>
+                </div>
+                <!-- Image -->
+                <div class="bg-indigo-300 m-2 p-2">
+                    <img id="image" src="./images/dadandan-normal.jpg" class="object-cover ">
+                </div>
+                <!-- Labels -->
+                <div class="flex flex-row md:flex-col md:ml-4">
+                    <div id="labelEN" class="m-2 bg-gray-300 p-2 text-xl">Normal</div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex flex-row justify-center flex-wrap mb-4">
+                <button id="button-red" class="bg-red-500 hover:bg-red-700 text-white font-bold py-4 px-4 m-2 w-1/5 md:w-1/6 rounded">
+                    あか<br>Red
+                </button>
+                <button id="button-blue" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 m-2 w-1/5 md:w-1/6 rounded">
+                    あお<br>Blue
+                </button>
+                <button id="button-green" class="bg-green-500 hover:bg-green-700 text-white font-bold py-4 px-4 m-2 w-1/5 md:w-1/6 rounded">
+                    みどり<br>Green
+                </button>
+                <button id="button-yellow" class="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-4 px-4 m-2 w-1/5 md:w-1/6 rounded">
+                    きいろ<br>Yellow
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4">
+        <div class="container mx-auto text-center">
+        &copy; 2024 <a class="text-blue-300 underline" href="https://x.com/disneysuki_papa" target="_blank">@disneysuki_papa</a>. All rights reserved.
+        </div>
+    </footer>
+    <script>
+        let disabled = false;
+
+        document.getElementById('button-red').addEventListener('click', function() {
+            changeImage('./images/dadandan-red.jpg', 'あか', 'Red')
+        });
+        document.getElementById('button-blue').addEventListener('click', function() {
+            changeImage('./images/dadandan-blue.jpg', 'あお', 'Blue')
+        });
+        document.getElementById('button-green').addEventListener('click', function() {
+            changeImage('./images/dadandan-green.jpg', 'みどり', 'Green')
+        });
+        document.getElementById('button-yellow').addEventListener('click', function() {
+            changeImage('./images/dadandan-yellow.jpg', 'きいろ', 'Yellow')
+        });
+
+        async function changeImage(imagePath, audioTextJP, audioTextEN) {
+            if (disabled) {
+                return;
+            }
+            disabled = true;
+
+            // 画像変更
+            const imgElement = document.getElementById('image');
+            imgElement.classList.remove('slide-in');
+            void imgElement.offsetWidth;
+            imgElement.classList.add('slide-in');
+            imgElement.src = imagePath; 
+
+            // だだんだーん
+            var audioPlayer = new Audio('./audio/dgdgndan.mp3');
+            audioPlayer.play();
+
+            // ラベル変更
+            changeLabels(audioTextJP, audioTextEN);
+
+            await delay(2500);
+
+            // 色音声
+            speakText(audioTextJP, audioTextEN);
+
+            disabled = false;
+        }
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function speakText(speakText1, speakText2) {
+            speakJP(speakText1);
+            speakEN(speakText2);
+        }
+
+        function speakJP(speakText) {
+            const text = speakText;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ja-JP';
+
+            // 利用可能な音声を取得
+            const voices = window.speechSynthesis.getVoices();
+            const maleVoice = voices.find(voice => voice.lang === 'ja-JP' && voice.name.includes('Male'));
+
+            if (maleVoice) {
+                utterance.voice = maleVoice;
+            }
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function speakEN(speakText) {
+            const text = speakText;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+
+            // 利用可能な音声を取得
+            const voices = window.speechSynthesis.getVoices();
+            const maleVoice = voices.find(voice => voice.lang === 'en-US' && voice.name.includes('Male'));
+
+            if (maleVoice) {
+                utterance.voice = maleVoice;
+            }
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function changeLabels(labelJP, labelEN) {
+            document.getElementById('labelJP').textContent = labelJP;
+            document.getElementById('labelEN').textContent = labelEN;
+        }
+
+        // 音声リストが非同期でロードされる可能性があるため、イベントリスナーを設定
+        window.speechSynthesis.onvoiceschanged = function() {
+            const voices = window.speechSynthesis.getVoices();
+            console.log(voices);
+        };
+
+</script>
+</body>
+</html>
