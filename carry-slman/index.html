@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Layout</title>
+    <link href="./css/style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <header class="bg-blue-500 text-white p-4">
+        <p class="text-center text-5xl">運んで！SLマン！</p>
+    </header>
+    <main class="p-4 max-w-full md:max-w-3xl mx-auto">
+        <div class="bg-white p-4 relative-content">
+            <button id="button-reset" class="bg-blue-500 text-2xl text-white px-6 py-4 mb-4">リセット</button>
+            <div id="image-container" class="flex image-container mt-20">
+                <div>
+                    <img id="image1" src="./images/slman_front.png" alt="SLman-front" class="w-full h-auto object-cover">
+                </div>
+                <div id="image2-container" class="relative">
+                    <img id="image2" src="./images/slman_back.png" alt="SLman-back" class="w-full h-auto object-cover">
+                    <div id="added-images" class="absolute-content w-full h-full"></div>
+                </div>
+            </div>
+            <div class="flex justify-between mt-4 text-center">
+                <div class="w-1/4 bg-blue-300 p-4">
+                    <div class="pb-2 border-b border-gray-100">
+                        <label id="label-number-1" for="image3" class="text-2xl">0</label>
+                    </div>
+                    <img id="image3" src="./images/anpanman.png" alt="アンパンマン" class="w-full cursor-pointer pt-4">
+                </div>
+                <div class="w-1/4 bg-blue-300 p-4">
+                    <div class="pb-2 border-b border-gray-100">
+                        <label id="label-number-2" for="image4" class="text-2xl">0</label>
+                    </div>
+                    <img id="image4" src="./images/dadandan.png" alt="だだんだん" class="w-full cursor-pointer pt-4">
+                </div>
+                <div class="w-1/4 bg-blue-300 p-4">
+                    <div class="pb-2 border-b border-gray-100">
+                        <label id="label-number-3" for="image5" class="text-2xl">0</label>
+                    </div>
+                    <img id="image5" src="./images/ringoboya.png" alt="りんごぼうや" class="w-full cursor-pointer pt-4">
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-gray-500 text-white py-4">
+        <div class="container mx-auto text-center">
+        &copy; 2024 <a class="text-blue-300 underline" href="https://x.com/disneysuki_papa" target="_blank">@disneysuki_papa</a>. All rights reserved.
+        </div>
+    </footer>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const addedImagesContainer = document.getElementById('added-images');
+    const image1 = document.getElementById('image1');
+    const image2 = document.getElementById('image2');
+    const image3 = document.getElementById('image3');
+    const image4 = document.getElementById('image4');
+    const image5 = document.getElementById('image5');
+    const resetButton = document.getElementById('button-reset');
+    const label1 = document.getElementById('label-number-1');
+    const label2 = document.getElementById('label-number-2');
+    const label3 = document.getElementById('label-number-3');
+
+    let countImage1 = 0;
+    let countImage2 = 0;
+    let countImage3 = 0;
+
+    // Set image container flex ratios based on natural image sizes
+    const setImageContainerRatios = () => {
+        const container = document.getElementById('image-container');
+        const img1Ratio = image1.naturalWidth / image1.naturalHeight;
+        const img2Ratio = image2.naturalWidth / image2.naturalHeight;
+
+        const totalRatio = img1Ratio + img2Ratio;
+        const img1Flex = img1Ratio / totalRatio;
+        const img2Flex = img2Ratio / totalRatio;
+
+        container.children[0].style.flex = img1Flex;
+        container.children[1].style.flex = img2Flex;
+    };
+
+    image1.onload = setImageContainerRatios;
+    image2.onload = setImageContainerRatios;
+
+    const addImageToContainer = (imgSrc, imageNumber) => {
+        if (6 <= addedImagesContainer.querySelectorAll('img').length) {
+            alert('【SLマン】重いよ〜、リセットボタンを押してね！');
+            return;
+        }
+
+        const newImage = document.createElement('img');
+        newImage.src = imgSrc;
+        newImage.classList.add('added-image', 'falling');
+        newImage.style.objectFit = 'cover';
+        addedImagesContainer.appendChild(newImage);
+        
+        // Ensure images maintain aspect ratio and do not exceed container width
+        const totalImages = addedImagesContainer.querySelectorAll('img').length;
+        const imageContainerWidth = addedImagesContainer.clientWidth;
+        const imageContainerHeight = addedImagesContainer.clientHeight;
+
+        switch (imageNumber) {
+            case (1):
+                countImage1++;
+                break;
+            case (2):
+                countImage2++;
+                break;
+            case (3):
+                countImage3++;
+                break;
+            default:
+                console.log(`lost imageNumber`);
+        }
+        label1.innerHTML = countImage1;
+        label2.innerHTML = countImage2;
+        label3.innerHTML = countImage3;
+
+        addedImagesContainer.querySelectorAll('img').forEach((img, index) => {
+            const aspectRatio = img.naturalWidth / img.naturalHeight;
+            const width = imageContainerWidth / 2.8;
+            const height = width / aspectRatio;
+            img.style.width = `${width}px`;
+            img.style.height = `${height}px`;
+
+            const paddingWidth = (imageContainerWidth - (width * 2)) / 3;
+
+            const row = Math.floor(index / 2);
+            const col = index % 2;
+
+            img.style.position = 'absolute';
+            // img.style.left = `${col * width + paddingWidth}px`;
+            const marginWidth = (col === 0) ? 0 : paddingWidth;
+            img.style.left = `${col * width + paddingWidth + marginWidth}px`;
+
+            if (row === 0) {
+                img.style.top = `${imageContainerHeight - height * 2}px`;
+            } else if (row === 1) {
+                // img.style.top = `${row * height}px`;
+                img.style.top = `${imageContainerHeight - height * 3}px`;
+            } else {
+                // img.style.top = `${(row - 1) * height}px`;
+                img.style.top = `${imageContainerHeight - height * 4}px`;
+            }
+            img.style.top = top;
+        });
+    };
+
+    image3.addEventListener('click', () => addImageToContainer(image3.src, 1));
+    image4.addEventListener('click', () => addImageToContainer(image4.src, 2));
+    image5.addEventListener('click', () => addImageToContainer(image5.src, 3));
+
+    const resetImages = () => {
+        addedImagesContainer.innerHTML = '';
+        countImage1 = countImage2 = countImage3 = label1.innerHTML = label2.innerHTML = label3.innerHTML = 0;
+    };
+    resetButton.addEventListener('click', () => resetImages());
+});
+
+    </script>
+</body>
+</html>
